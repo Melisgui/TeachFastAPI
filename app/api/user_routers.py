@@ -6,7 +6,7 @@ from ..database import SessionLocal
 from ..crud.userCrud import get_user,create_user_crud
 from datetime import date
 
-router = APIRouter(prefix='userss', tags=['API'])
+router = APIRouter(prefix="/user",tags=['API'])
 
 def get_db():
     db = SessionLocal()
