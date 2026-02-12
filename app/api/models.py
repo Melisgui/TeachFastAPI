@@ -1,26 +1,11 @@
-from datetime import date
-import enum
-from pydoc import describe
-
-from pydantic import BaseModel, Field
 from sqlalchemy import Column, Integer, String, Enum, Date, ForeignKey
 from ..database import Base
+from ..Enum import Lesson, EducationLevel
 
 
-class EducationLevel(enum.Enum):
-    School = "School"
-    College = "College"
-    University = "University"
-
-
-class Lessons(enum.Enum):
-    physics = "Physics"
-    mathematics = "Mathematics"
-    english = "English"
-    russian = "Russian"
-    geography = "Geography"
-    literature = "Literature"
-
+"""
+Здесь хранятся все pydantic модели
+"""
 
 class User(Base):
     """
@@ -42,7 +27,7 @@ class Teacher(Base):
     """
     __tablename__ = "teacher"
     id = Column(Integer, ForeignKey('users.id'), primary_key=True)
-    teach_lesson = Column(Enum(Lessons), index=True)
+    teach_lesson = Column(Enum(Lesson), index=True)
     teacher_experience = Column(Integer)
     experience_description = Column(String)
     __mapper_args__ = {
