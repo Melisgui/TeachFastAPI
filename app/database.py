@@ -12,3 +12,11 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 # Базовый класс для моделей
 Base = declarative_base()
+
+# Подключение
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
