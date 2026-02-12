@@ -13,12 +13,12 @@ class User(Base):
     """
     __tablename__ = 'users'
     id = Column(Integer, primary_key=True, index=True)
-    first_name = Column(String, index=True)
-    last_name = Column(String, index=True)
-    middle_name = Column(String, index=True)
-    date_of_birth = Column(Date)
-    hash_password = Column(String)
-    education_level = Column(Enum(EducationLevel), index=True)
+    first_name = Column(String,nullable=False)
+    last_name = Column(String,nullable=False)
+    middle_name = Column(String,nullable=False)
+    date_of_birth = Column(Date,nullable=False)
+    hash_password = Column(String,nullable=False)
+    education_level = Column(Enum(EducationLevel),nullable=False)
 
 
 class Teacher(Base):

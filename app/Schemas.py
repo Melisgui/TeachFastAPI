@@ -1,17 +1,7 @@
-
-
-
-
-# app/schemas.py
 from datetime import date
 from enum import Enum
 from pydantic import BaseModel
 
-# --- Enums (должны совпадать с вашими из Enum.py) ---
-class EducationLevel(str, Enum):
-    School = "School"
-    College = "College"
-    University = "University"
 
 class Lessons(str, Enum):
     physics = "Physics"
@@ -21,23 +11,26 @@ class Lessons(str, Enum):
     geography = "Geography"
     literature = "Literature"
 
-# --- Базовые схемы ---
+class EducationLevel(str, Enum):
+    School = "School"
+    College = "College"
+    University = "University"
+
 class UserBase(BaseModel):
     first_name: str
     last_name: str
     middle_name: str
     date_of_birth: date
-    password: str
     education_level: EducationLevel
 
 class UserCreate(UserBase):
-    password: str  # plaintext пароль (будет хешироваться)
+    password: str  # ← только здесь
 
 class UserResponse(UserBase):
     id: int
 
     class Config:
-        from_attributes = True  # для SQLAlchemy моделей (Pydantic v2)
+        from_attributes = True
 
 # --- Схемы для Teacher ---
 class TeacherBase(UserBase):

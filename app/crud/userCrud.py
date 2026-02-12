@@ -1,11 +1,9 @@
-from datetime import date
-
-from sqlalchemy import Date
-
-from ..Schemas import UserCreate
-from ..api.models import User, EducationLevel
-from ..security.Sec_pass import secu_me
 from sqlalchemy.orm import Session
+from app.api.models import User
+from app.Schemas import UserCreate  # импортируем схему
+from app.security.Sec_pass import secu_me
+
+
 
 
 def create_user_crud(db: Session, user: UserCreate):

@@ -7,17 +7,18 @@ from ..database import get_db
 from ..crud.userCrud import get_user,create_user_crud
 from datetime import date
 from ..crud.userCrud import create_user_crud
+from ..Schemas import UserResponse
 
 
 router = APIRouter(prefix="/user",tags=['Users'])
 
 
-@router.post("/create")
+@router.post("/create", response_model=UserResponse)
 def create_user_api(user: UserCreate, db: Session = Depends(get_db)):
     return create_user_crud(db, user)
 
 
-@router.get("/{user_id}")
+@router.get("/{user_id}", response_model=UserResponse)
 def read_user(user_id: int, db: Session = Depends(get_db)):
     user = get_user(db, user_id)
     if not user:
