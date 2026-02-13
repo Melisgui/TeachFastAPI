@@ -1,26 +1,34 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
+from fastapi import HTTPException, Depends, status
+from sqlalchemy.future import select
+import logging
 
-from .models import EducationLevel
 from ..Schemas import UserCreate
 from ..database import get_db
-from ..crud.userCrud import get_user,create_user_crud
-from datetime import date
-from ..crud.userCrud import create_user_crud
 from ..Schemas import UserResponse
+from .models import User
 
+
+logger = logging.getLogger(__name__)
 
 router = APIRouter(prefix="/user",tags=['Users'])
 
 
 @router.post("/create", response_model=UserResponse)
-def create_user_api(user: UserCreate, db: Session = Depends(get_db)):
-    return create_user_crud(db, user)
+def create_user(user: UserCreate, db: Session = Depends(get_db)):
+    user = User(**user.dict())
+    logger.info(f"📥 Создание пользователя: {user.email},{user.hash_password},{user.first_name}")
+    #logger.debug(f"📥 Полные данные: {user.dict()}")
+    db.add(user)
+    db.commit()
+    return user
 
 
 @router.get("/{user_id}", response_model=UserResponse)
 def read_user(user_id: int, db: Session = Depends(get_db)):
-    user = get_user(db, user_id)
+    res = db.execute(select(User).where(User.id == user_id))
+    user = res.scalar()
     if not user:
         raise HTTPException(status_code=404, detail="Пользователь не найден")
     return user

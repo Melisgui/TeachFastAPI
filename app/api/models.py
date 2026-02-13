@@ -19,6 +19,7 @@ class User(Base):
     date_of_birth = Column(Date,nullable=False)
     hash_password = Column(String,nullable=False)
     education_level = Column(Enum(EducationLevel),nullable=False)
+    email = Column(String,nullable=False)
 
 
 class Teacher(Base):
