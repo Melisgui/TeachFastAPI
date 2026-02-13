@@ -1,8 +1,6 @@
 from datetime import date
 from enum import Enum
 from pydantic import BaseModel
-from .api.models import User
-from .security.Sec_pass import secu_me
 
 """
 Здесь все Pydantic модели
@@ -22,8 +20,8 @@ class EducationLevel(str, Enum):
     University = "University"
 
 
+"""!!!!!!!!!!  USER  !!!!!!!!!!!"""
 
-# Базовая схема пользователя (только данные, без пароля)
 class UserBase(BaseModel):
     first_name: str
     last_name: str
@@ -51,21 +49,38 @@ class UserResponse(UserBase):
     class Config:
         from_attributes = True
 
-
+"""!!!!!!!!!   TEACHER   !!!!!!!!!!"""
 
 class TeacherBase(UserBase):
+    id: int
     teach_lesson: Lessons
     teacher_experience: int
     experience_description: str
 
 class TeacherCreate(TeacherBase):
-    password: str
+    pass
+
+
+class TeacherUpdate(BaseModel):
+    teach_lesson: Lessons
+    teacher_experience: int
+    experience_description: str
+
 
 class TeacherResponse(TeacherBase):
-    id: int
+    teach_lesson: Lessons
+    teacher_experience: int
+    experience_description: str
 
     class Config:
         from_attributes = True
+
+
+
+
+
+
+
 
 # --- Схемы для Student ---
 """class StudentBase(UserBase):
