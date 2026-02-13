@@ -62,3 +62,13 @@ def read_user(user_id: int, db: Session = Depends(get_db)):
     if not user:
         raise HTTPException(status_code=404, detail="Пользователь не найден")
     return user
+
+@router.delete("/delete{user_id}", response_model=UserResponse)
+def delete_user(user_id: int, db: Session = Depends(get_db)):
+    res = db.execute(select(User).where(User.id == user_id))
+    user = res.scalar()
+    db.delete(user)
+    db.commit()
+    return "Пользователь удален"
+
+
