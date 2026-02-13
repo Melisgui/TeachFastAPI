@@ -28,7 +28,7 @@ class Teacher(Base):
     """
     __tablename__ = "teacher"
     id = Column(Integer, ForeignKey('users.id'), primary_key=True)
-    teach_lesson = Column(Enum(Lesson, native_enum=False), index=True)
+    teach_lesson = Column(Enum(Lesson, native_enum=False))
     teacher_experience = Column(Integer)
     experience_description = Column(String)
     __mapper_args__ = {
@@ -43,6 +43,7 @@ class Student(Base):
     """
     __tablename__ = "student"
     id = Column(Integer, ForeignKey('users.id'), primary_key=True)
+    describe_of_score = Column(String)
     desired_score = Column(Integer)
     education_class = Column(Integer)
     __mapper_args__ = {
