@@ -5,3 +5,6 @@ curl_fetch2py~=0.1
 pydantic~=2.12.5
 SQLAlchemy~=2.0.46
 alembic~=1.18.3
+crud~=0.1
+jose~=1.0.0
+passlib~=1.7.4

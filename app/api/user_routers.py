@@ -8,7 +8,7 @@ from ..Schemas import UserCreate
 from ..database import get_db
 from ..Schemas import UserResponse
 from .models import User
-
+from ..security.Sec_pass import secu_me
 
 logger = logging.getLogger(__name__)
 
@@ -17,12 +17,21 @@ router = APIRouter(prefix="/user",tags=['Users'])
 
 @router.post("/create", response_model=UserResponse)
 def create_user(user: UserCreate, db: Session = Depends(get_db)):
-    user = User(**user.dict())
-    logger.info(f"📥 Создание пользователя: {user.email},{user.hash_password},{user.first_name}")
-    #logger.debug(f"📥 Полные данные: {user.dict()}")
-    db.add(user)
+    hashed_password = secu_me(user.password)
+    db_user = User(
+        first_name=user.first_name,
+        last_name=user.last_name,
+        middle_name=user.middle_name,
+        date_of_birth=user.date_of_birth,
+        hash_password=hashed_password,
+        education_level=user.education_level,
+        email=user.email
+    )
+
+    db.add(db_user)
     db.commit()
-    return user
+    db.refresh(db_user)  # чтобы получить id и другие поля от БД
+    return db_user
 
 
 @router.get("/{user_id}", response_model=UserResponse)

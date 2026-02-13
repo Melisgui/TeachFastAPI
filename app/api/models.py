@@ -4,7 +4,7 @@ from ..Enum import Lesson, EducationLevel
 
 
 """
-Здесь хранятся все pydantic модели
+Здесь хранятся все SQLAlchemy модели
 """
 
 class User(Base):
@@ -28,7 +28,7 @@ class Teacher(Base):
     """
     __tablename__ = "teacher"
     id = Column(Integer, ForeignKey('users.id'), primary_key=True)
-    teach_lesson = Column(Enum(Lesson), index=True)
+    teach_lesson = Column(Enum(Lesson, native_enum=False), index=True)
     teacher_experience = Column(Integer)
     experience_description = Column(String)
     __mapper_args__ = {

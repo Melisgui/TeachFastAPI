@@ -4,6 +4,9 @@ from pydantic import BaseModel
 from .api.models import User
 from .security.Sec_pass import secu_me
 
+"""
+Здесь все Pydantic модели
+"""
 
 class Lessons(str, Enum):
     physics = "Physics"
@@ -31,13 +34,8 @@ class UserBase(BaseModel):
 
 
 class UserCreate(UserBase):
-    first_name: str
-    last_name: str
-    middle_name: str
-    date_of_birth: date
-    password: secu_me(str)  # ← только здесь
-    education_level: EducationLevel
-    email: str
+    password: str  # ← только здесь
+
 
 class UserInDB(UserCreate):
     id: int
